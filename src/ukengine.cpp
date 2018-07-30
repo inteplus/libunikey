@@ -1,4 +1,4 @@
-// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
+#// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 /* Unikey Vietnamese Input Method
  * Copyright (C) 2000-2005 Pham Kim Long
  * Contact:
@@ -229,13 +229,13 @@ int UkEngine::processHookWithUO(UkKeyEvent & ev)
     bool hookRemoved = false;
     bool removeWithUndo = true;
     bool toneRemoved = false;
-    
+
     (void)toneRemoved; // fix warning
-    
+
     VnLexiName *v;
 
     if (!m_pCtrl->options.freeMarking && m_buffer[m_current].vOffset != 0)
-        return processAppend(ev);    
+        return processAppend(ev);
 
     vEnd = m_current - m_buffer[m_current].vOffset;
     vs = m_buffer[vEnd].vseq;
@@ -1005,16 +1005,33 @@ int UkEngine::processLEnvi(UkKeyEvent & ev)
 //----------------------------------------------------------
 int UkEngine::processUEnvi(UkKeyEvent & ev)
 {
+    UkKeyEvent ev2;
+
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
 
     switch (m_buffer[m_current].vnSym) {
-    case vnl_u: // normal case
+    case vnl_u:
     case vnl_U:
-    case vnl_uh:
+        if(m_current < 1) { // normal case, u -> ư
+            ev.evType = vneHook_u;
+            return processHook(ev);
+        }
+        switch (m_buffer[m_current-1].vnSym) {
+        case vnl_uh: // special case ưu -> uu
+        case vnl_Uh:
+            m_pCtrl->input.keyCodeToEvent('\b', ev2);
+            processAppend(ev2);
+            processAppend(ev2);
+            processAppend(ev);
+            return processAppend(ev);
+        default: // normal case, u -> ư
+            ev.evType = vneHook_u;
+            return processHook(ev);
+        }
+    case vnl_uh: // special case, ư -> ưu
     case vnl_Uh:
-        ev.evType = vneHook_u;
-        return processHook(ev);
+        return processAppend(ev);
     default: // restricted to English
         return processAppend(ev);
     }
