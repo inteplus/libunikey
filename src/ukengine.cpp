@@ -1005,8 +1005,6 @@ int UkEngine::processLEnvi(UkKeyEvent & ev)
 //----------------------------------------------------------
 int UkEngine::processUEnvi(UkKeyEvent & ev)
 {
-    UkKeyEvent ev2;
-
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
 
