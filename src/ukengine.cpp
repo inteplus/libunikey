@@ -64,7 +64,11 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processTelexW,  //vne_telex_w
     &UkEngine::processMapChar, //vneMapChar
     &UkEngine::processEscChar, //vneEscChar
-    &UkEngine::processOFlex,   //vneOFlex
+    &UkEngine::processAEnvi,   //vneAEnvi
+    &UkEngine::processEEnvi,   //vneEEnvi
+    &UkEngine::processOEnvi,   //vneOEnvi
+    &UkEngine::processLEnvi,   //vneLEnvi
+    &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -916,20 +920,85 @@ int UkEngine::processAppend(UkKeyEvent & ev)
 }
 
 //----------------------------------------------------------
-int UkEngine::processOFlex(UkKeyEvent & ev)
+int UkEngine::processAEnvi(UkKeyEvent & ev)
 {
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
 
     switch (m_buffer[m_current].vnSym) {
-    case vnl_uh:
+    case vnl_a: // normal case
+    case vnl_A:
+    case vnl_ar:
+    case vnl_Ar:
+    case vnl_ab:
+    case vnl_Ab:
+        ev.evType = vneRoof_a;
+        return processRoof(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processOEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_o: // normal case
+    case vnl_O:
+    case vnl_or:
+    case vnl_Or:
+    case vnl_oh:
+    case vnl_Oh:
+        ev.evType = vneRoof_o;
+        return processRoof(ev);
+    case vnl_uh: // ươ
     case vnl_Uh:
         ev.evType = vneHook_o;
         processHook(ev);
         return processHook(ev);
-    default:
-        ev.evType = vneRoof_o;
-        return processRoof(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processLEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_o: // normal case
+    case vnl_O:
+    case vnl_or:
+    case vnl_Or:
+    case vnl_oh:
+    case vnl_Oh:
+        ev.evType = vneHook_o;
+        return processHook(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processUEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_u: // normal case
+    case vnl_U:
+    case vnl_uh:
+    case vnl_Uh:
+        ev.evType = vneHook_u;
+        return processHook(ev);
+    default: // restricted to English
+        return processAppend(ev);
     }
 }
 

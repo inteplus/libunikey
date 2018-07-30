@@ -108,7 +108,11 @@ public:
     int processMapChar(UkKeyEvent & ev);
     int processTelexW(UkKeyEvent & ev);
     int processEscChar(UkKeyEvent & ev);
-    int processOFlex(UkKeyEvent & ev);
+    int processAEnvi(UkKeyEvent & ev);
+    int processEEnvi(UkKeyEvent & ev);
+    int processOEnvi(UkKeyEvent & ev);
+    int processLEnvi(UkKeyEvent & ev);
+    int processUEnvi(UkKeyEvent & ev);
 
 protected:
 
