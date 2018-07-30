@@ -950,7 +950,7 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
     case vnl_E:
     case vnl_er:
     case vnl_Er:
-        ev.evType = vneRoof_a;
+        ev.evType = vneRoof_e;
         return processRoof(ev);
     default: // restricted to English
         return processAppend(ev);
