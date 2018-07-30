@@ -940,6 +940,24 @@ int UkEngine::processAEnvi(UkKeyEvent & ev)
 }
 
 //----------------------------------------------------------
+int UkEngine::processEEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_e: // normal case
+    case vnl_E:
+    case vnl_er:
+    case vnl_Er:
+        ev.evType = vneRoof_a;
+        return processRoof(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
 int UkEngine::processOEnvi(UkKeyEvent & ev)
 {
     if (m_current < 0 || !m_pCtrl->vietKey)
