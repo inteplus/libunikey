@@ -1,4 +1,4 @@
-#// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
+// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 /* Unikey Vietnamese Input Method
  * Copyright (C) 2000-2005 Pham Kim Long
  * Contact:
@@ -1011,27 +1011,12 @@ int UkEngine::processUEnvi(UkKeyEvent & ev)
         return processAppend(ev);
 
     switch (m_buffer[m_current].vnSym) {
-    case vnl_u:
+    case vnl_u: // current workaround, not the best solution
     case vnl_U:
-        if(m_current < 1) { // normal case, u -> ư
-            ev.evType = vneHook_u;
-            return processHook(ev);
-        }
-        switch (m_buffer[m_current-1].vnSym) {
-        case vnl_uh: // special case ưu -> uu
-        case vnl_Uh:
-            m_pCtrl->input.keyCodeToEvent('\b', ev2);
-            processAppend(ev2);
-            processAppend(ev2);
-            processAppend(ev);
-            return processAppend(ev);
-        default: // normal case, u -> ư
-            ev.evType = vneHook_u;
-            return processHook(ev);
-        }
-    case vnl_uh: // special case, ư -> ưu
+    case vnl_uh:
     case vnl_Uh:
-        return processAppend(ev);
+        ev.evType = vneHook_u;
+        return processHook(ev);
     default: // restricted to English
         return processAppend(ev);
     }
