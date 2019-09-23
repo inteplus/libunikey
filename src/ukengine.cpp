@@ -66,6 +66,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processEscChar, //vneEscChar
     &UkEngine::processAEnvi,   //vneAEnvi
     &UkEngine::processEEnvi,   //vneEEnvi
+    &UkEngine::processHEnvi,   //vneHEnvi
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processYEnvi,   //vneYEnvi
     &UkEngine::processAppend,  //vneNormal
@@ -953,14 +954,26 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
     case vnl_Ab:
         ev.evType = vneBowl;
         return processHook(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processHEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
     case vnl_o: // normal 'O' cases
     case vnl_O:
     case vnl_or:
     case vnl_Or:
     case vnl_oh:
     case vnl_Oh:
-        ev.evType = vneHook_o;
-        return processHook(ev);
+        ev.evType = vneRoof_o;
+        return processRoof(ev);
     default: // restricted to English
         return processAppend(ev);
     }
@@ -972,17 +985,14 @@ int UkEngine::processUEnvi(UkKeyEvent & ev)
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
 
+    // current workaround, not the best solution
     switch (m_buffer[m_current].vnSym) {
     case vnl_e: // normal 'E' cases
     case vnl_E:
-    case vnl_er:
-    case vnl_Er:
         ev.evType = vneRoof_e;
         return processRoof(ev);
-    case vnl_u: // current workaround, not the best solution
-    case vnl_U: // normal 'U' cases
-    case vnl_uh:
-    case vnl_Uh:
+    case vnl_u: // normal 'U' cases
+    case vnl_U:
         ev.evType = vneHook_u;
         return processHook(ev);
     default: // restricted to English
@@ -1003,8 +1013,8 @@ int UkEngine::processYEnvi(UkKeyEvent & ev)
     case vnl_Or:
     case vnl_oh:
     case vnl_Oh:
-        ev.evType = vneHook_o;
-        return processHook(ev);
+        ev.evType = vneRoof_o;
+        return processRoof(ev);
     default: // restricted to English
         return processAppend(ev);
     }
