@@ -16,7 +16,7 @@ Single suffix key to form a Vietnamese letter with very low probability of hitti
 
   * aa (0.000398) for â
   * ae (0.000188) for ă
-  * eu (0.000849) for ê
+  * ee (0.004278) for ê
   * oo (0.002352) for ô
   * op (0.002419) for ơ
   * uu (0.000015) for ư

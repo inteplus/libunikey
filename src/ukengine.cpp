@@ -954,6 +954,12 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
     case vnl_Ab:
         ev.evType = vneBowl;
         return processHook(ev);
+    case vnl_e: // normal 'E' cases
+    case vnl_E:
+    case vnl_er:
+    case vnl_Er:
+        ev.evType = vneRoof_e;
+        return processRoof(ev);
     default: // restricted to English
         return processAppend(ev);
     }
@@ -1007,10 +1013,6 @@ int UkEngine::processUEnvi(UkKeyEvent & ev)
 
     // current workaround, not the best solution
     switch (m_buffer[m_current].vnSym) {
-    case vnl_e: // normal 'E' cases
-    case vnl_E:
-        ev.evType = vneRoof_e;
-        return processRoof(ev);
     case vnl_u: // normal 'U' cases
     case vnl_U:
         ev.evType = vneHook_u;
