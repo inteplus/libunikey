@@ -8,9 +8,9 @@ Single key stroke for a tone with lowest probability of hitting an English bigra
 
   * Q (0.001030) for sắc
   * Z (0.001142) for huyền
-  * X (0.001933) for nặng
-  * J (0.002077) for hỏi
-  * K (0.008084) for ngã
+  * X (0.001933) for ngã
+  * J (0.002077) for nặng
+  * K (0.008084) for hỏi
 
 Single suffix key to form a Vietnamese letter with very low probability of hitting an English bigram
 
