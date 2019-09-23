@@ -66,9 +66,9 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processEscChar, //vneEscChar
     &UkEngine::processAEnvi,   //vneAEnvi
     &UkEngine::processEEnvi,   //vneEEnvi
-    &UkEngine::processHEnvi,   //vneHEnvi
+    &UkEngine::processOEnvi,   //vneOEnvi
+    &UkEngine::processPEnvi,   //vnePEnvi
     &UkEngine::processUEnvi,   //vneUEnvi
-    &UkEngine::processYEnvi,   //vneYEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -960,7 +960,7 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
 }
 
 //----------------------------------------------------------
-int UkEngine::processHEnvi(UkKeyEvent & ev)
+int UkEngine::processOEnvi(UkKeyEvent & ev)
 {
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
@@ -974,6 +974,26 @@ int UkEngine::processHEnvi(UkKeyEvent & ev)
     case vnl_Oh:
         ev.evType = vneRoof_o;
         return processRoof(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processPEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_o: // normal 'O' cases
+    case vnl_O:
+    case vnl_or:
+    case vnl_Or:
+    case vnl_oh:
+    case vnl_Oh:
+        ev.evType = vneHook_o;
+        return processHook(ev);
     default: // restricted to English
         return processAppend(ev);
     }
@@ -994,26 +1014,6 @@ int UkEngine::processUEnvi(UkKeyEvent & ev)
     case vnl_u: // normal 'U' cases
     case vnl_U:
         ev.evType = vneHook_u;
-        return processHook(ev);
-    default: // restricted to English
-        return processAppend(ev);
-    }
-}
-
-//----------------------------------------------------------
-int UkEngine::processYEnvi(UkKeyEvent & ev)
-{
-    if (m_current < 0 || !m_pCtrl->vietKey)
-        return processAppend(ev);
-
-    switch (m_buffer[m_current].vnSym) {
-    case vnl_o: // normal 'O' cases
-    case vnl_O:
-    case vnl_or:
-    case vnl_Or:
-    case vnl_oh:
-    case vnl_Oh:
-        ev.evType = vneHook_o;
         return processHook(ev);
     default: // restricted to English
         return processAppend(ev);

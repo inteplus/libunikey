@@ -110,9 +110,9 @@ public:
     int processEscChar(UkKeyEvent & ev);
     int processAEnvi(UkKeyEvent & ev);
     int processEEnvi(UkKeyEvent & ev);
-    int processHEnvi(UkKeyEvent & ev);
+    int processOEnvi(UkKeyEvent & ev);
+    int processPEnvi(UkKeyEvent & ev);
     int processUEnvi(UkKeyEvent & ev);
-    int processYEnvi(UkKeyEvent & ev);
 
 protected:
 

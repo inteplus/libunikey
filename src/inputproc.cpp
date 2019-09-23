@@ -212,9 +212,9 @@ DllExport UkKeyMapping EnviMethodMapping[] = {
     // {'W', vneHookAll},
     // {'W', vneBowl}, // restricted 'W'
     {'E', vneEEnvi},
-    {'H', vneHEnvi},
+    {'O', vneOEnvi},
+    {'P', vnePEnvi},
     {'U', vneUEnvi},
-    {'Y', vneYEnvi},
     {'D', vneDd},
     {0, vneNormal}
 };
