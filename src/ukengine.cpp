@@ -69,6 +69,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processOEnvi,   //vneOEnvi
     &UkEngine::processPEnvi,   //vnePEnvi
     &UkEngine::processUEnvi,   //vneUEnvi
+    &UkEngine::processWEnvi,   //vneWEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -946,14 +947,6 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
         return processAppend(ev);
 
     switch (m_buffer[m_current].vnSym) {
-    case vnl_a: // normal 'A' cases
-    case vnl_A:
-    case vnl_ar:
-    case vnl_Ar:
-    case vnl_ab:
-    case vnl_Ab:
-        ev.evType = vneBowl;
-        return processHook(ev);
     case vnl_e: // normal 'E' cases
     case vnl_E:
     case vnl_er:
@@ -1016,6 +1009,27 @@ int UkEngine::processUEnvi(UkKeyEvent & ev)
     case vnl_u: // normal 'U' cases
     case vnl_U:
         ev.evType = vneHook_u;
+        return processHook(ev);
+    default: // restricted to English
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UkEngine::processWEnvi(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    // current workaround, not the best solution
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_a: // normal 'A' cases
+    case vnl_A:
+    case vnl_ar:
+    case vnl_Ar:
+    case vnl_ab:
+    case vnl_Ab:
+        ev.evType = vneBowl;
         return processHook(ev);
     default: // restricted to English
         return processAppend(ev);

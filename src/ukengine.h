@@ -113,6 +113,7 @@ public:
     int processOEnvi(UkKeyEvent & ev);
     int processPEnvi(UkKeyEvent & ev);
     int processUEnvi(UkKeyEvent & ev);
+    int processWEnvi(UkKeyEvent & ev);
 
 protected:
 

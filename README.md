@@ -15,7 +15,7 @@ Single key stroke for a tone with lowest probability of hitting an English bigra
 Single suffix key to form a Vietnamese letter with very low probability of hitting an English bigram
 
   * aa (0.000398) for â
-  * ae (0.000188) for ă
+  * aw (0.000906) for ă
   * ee (0.004278) for ê
   * oo (0.002352) for ô
   * op (0.002419) for ơ
