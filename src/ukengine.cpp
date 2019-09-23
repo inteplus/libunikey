@@ -951,7 +951,7 @@ int UkEngine::processEEnvi(UkKeyEvent & ev)
     case vnl_Ar:
     case vnl_ab:
     case vnl_Ab:
-        ev.evType = vneHook_a;
+        ev.evType = vneBowl;
         return processHook(ev);
     case vnl_o: // normal 'O' cases
     case vnl_O:
