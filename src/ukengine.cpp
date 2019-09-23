@@ -1013,8 +1013,8 @@ int UkEngine::processYEnvi(UkKeyEvent & ev)
     case vnl_Or:
     case vnl_oh:
     case vnl_Oh:
-        ev.evType = vneRoof_o;
-        return processRoof(ev);
+        ev.evType = vneHook_o;
+        return processHook(ev);
     default: // restricted to English
         return processAppend(ev);
     }
