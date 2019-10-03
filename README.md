@@ -1,6 +1,6 @@
 # libunikey
 
-Continuation of Pham Kim Long's libunikey engine, upgraded to C++11, and with Envi, a modified Telex input method for typing both English and Vietnamese conveniently.
+A continuation of Pham Kim Long's libunikey engine, upgraded to C++11, and with Envi, a modified Telex input method for typing both English and Vietnamese conveniently.
 
 This variant contains Envi, an input method modified from Telex to support typing both English and Vietnamese more easily than Telex. You type:
 
@@ -25,4 +25,4 @@ Single suffix key to form a Vietnamese letter with very low probability of hitti
 These letters were chosen to minimise the probability of hitting an English bigram (using the English and Vietnamese Wikipedia corpora) and to preserve/enhance the fast typing pace of Telex.
 
 -- Minh-Tri Pham
-2019/09/23
+2019/10/02
