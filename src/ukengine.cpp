@@ -1,4 +1,4 @@
-// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
+#// -*- mode:c++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 /* Unikey Vietnamese Input Method
  * Copyright (C) 2000-2005 Pham Kim Long
  * Contact:
@@ -1059,15 +1059,21 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym]) { // first letter is not a vowel
             outlog() << "case 1a" << std::endl;
+            ev.tone = 4; // nga
+            ev.vnSym = vnl_nonVnChar; // no symbol please!
             return processTone(ev);
         }
         if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) { // last letter is an 'X'
             outlog() << "case 1b" << std::endl;
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
             outlog() << backs << "-" << tmpBuf << "-" << tmpSize << "-" << tmpType << std::endl;
+            ev.tone = 4; // nga
+            ev.vnSym = vnl_nonVnChar; // no symbol please!
             return processTone(ev);
         }
     default:
+        ev.tone = 4; // nga
+        ev.vnSym = vnl_nonVnChar; // no symbol please!
         return processTone(ev);
     }
 }  
