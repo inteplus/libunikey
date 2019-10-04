@@ -1053,7 +1053,7 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
     switch (m_current) {
     case 0: // 1 letter typed
         if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
-            ev.tone = 3; // hoi
+            ev.tone = 4; // nga
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
@@ -1095,7 +1095,6 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
         if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
             ev.tone = 3; // hoi
             ev.vnSym = vnl_nonVnChar;
-            outlog() << "case 0a" << std::endl;
             return processTone(ev);
         }
         switch (entry.vnSym) { // a vn-vowel without a tone
@@ -1103,12 +1102,10 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
         case vnl_O: // (O,k) -> Ok
         case vnl_u: // (u,k) -> uk
         case vnl_U: // (U,k) -> Uk
-            outlog() << "case 0b" << std::endl;
             return processAppend(ev);
         default:
             ev.tone = 3; // hoi
             ev.vnSym = vnl_nonVnChar;
-            outlog() << "case 0c" << std::endl;
             return processTone(ev);
         }
 
