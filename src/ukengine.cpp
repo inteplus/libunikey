@@ -71,6 +71,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processWEnvi,   //vneWEnvi
     &UkEngine::processXEnvi,   //vneXEnvi
+    &UkEngine::processKEnvi,   //vneXEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -1054,17 +1055,67 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
         return processAppend(ev); // We do not expect a Vietnamese tilde tone to go with the first letter ever.
         
     case 1: // 2 letters typed
-        if (!IsVnVowel[m_buffer[0].vnSym]) { // first letter is not a vowel
+        if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) { // first letter is not a vowel or it is a vowel and there is a tone
             ev.tone = 4; // nga
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
-        if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) { // last letter is an 'X'
+        if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) // last letter is an 'X'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-            ev.tone = 4; // nga
+        ev.tone = 4; // nga
+        ev.vnSym = vnl_nonVnChar;
+        return processTone(ev);
+
+    default:
+        ev.tone = 4; // nga
+        ev.vnSym = vnl_nonVnChar;
+        return processTone(ev);
+    }
+}  
+
+//------------------------------------------------------------------
+int UkEngine::processKEnvi(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    int backs, tmpSize;
+    unsigned char tmpBuf[4];
+    UkOutputType tmpType;
+    
+    WordInfo & entry = m_buffer[m_current];
+
+    switch (m_current) {
+    case 0: // 1 letter typed
+        if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
+            ev.tone = 3; // hoi
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
+        switch (entry.vnSym) { // a vn-vowel without a tone
+        case vnl_o: // (o,k) -> ok
+        case vnl_O: // (O,k) -> Ok
+        case vnl_u: // (u,k) -> uk
+        case vnl_U: // (U,k) -> Uk
+            return processAppend(ev);
+        default:
+            ev.tone = 3; // hoi
+            ev.vnSym = vnl_nonVnChar;
+            return processTone(ev);
+        }
+
+    case 1: // 2 letters typed
+        if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) { // first letter is not a vowel or it is a vowel but there is a tone
+            ev.tone = 3; // hoi
+            ev.vnSym = vnl_nonVnChar;
+            return processTone(ev);
+        }
+        if (entry.vnSym == vnl_k || entry.vnSym == vnl_K) // last letter is an 'K'
+            processBackspace(backs, tmpBuf, tmpSize, tmpType);
+        ev.tone = 3; // hoi
+        ev.vnSym = vnl_nonVnChar;
+        return processTone(ev);
+
     default:
         ev.tone = 4; // nga
         ev.vnSym = vnl_nonVnChar;
