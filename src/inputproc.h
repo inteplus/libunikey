@@ -43,6 +43,8 @@ enum UkKeyEvName {
   vneWEnvi,
   vneXEnvi,
   vneKEnvi,
+  vneQEnvi,
+  vneJEnvi,
   vneNormal, //does not belong to any of the above categories
   vneCount //just to count how many event types there are
 };
