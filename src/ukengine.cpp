@@ -1043,8 +1043,6 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
     if (!m_pCtrl->vietKey || m_current < 0)
         return processAppend(ev);
 
-    outlog() << "process X Envi begin" << std::endl;
-
     int backs, tmpSize;
     unsigned char tmpBuf[4];
     UkOutputType tmpType;
@@ -1053,27 +1051,23 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
 
     switch (m_current) {
     case 0: // 1 letter typed
-        outlog() << "case 0" << std::endl;
         return processAppend(ev); // We do not expect a Vietnamese tilde tone to go with the first letter ever.
         
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym]) { // first letter is not a vowel
-            outlog() << "case 1a" << std::endl;
             ev.tone = 4; // nga
-            ev.vnSym = vnl_nonVnChar; // no symbol please!
+            ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
         if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) { // last letter is an 'X'
-            outlog() << "case 1b" << std::endl;
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-            outlog() << backs << "-" << tmpBuf << "-" << tmpSize << "-" << tmpType << std::endl;
             ev.tone = 4; // nga
-            ev.vnSym = vnl_nonVnChar; // no symbol please!
+            ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
     default:
         ev.tone = 4; // nga
-        ev.vnSym = vnl_nonVnChar; // no symbol please!
+        ev.vnSym = vnl_nonVnChar;
         return processTone(ev);
     }
 }  
