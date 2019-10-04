@@ -1193,7 +1193,7 @@ int UkEngine::processJEnvi(UkKeyEvent & ev)
     switch (m_current) {
     case 0: // 1 letter typed
         if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
-            ev.tone = 1; // nang
+            ev.tone = 5; // nang
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
@@ -1202,25 +1202,25 @@ int UkEngine::processJEnvi(UkKeyEvent & ev)
         case vnl_E: // (E,j) -> Ej
             return processAppend(ev);
         default:
-            ev.tone = 1; // nang
+            ev.tone = 5; // nang
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
 
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) { // first letter is not a vowel or it is a vowel but there is a tone
-            ev.tone = 1; // nang
+            ev.tone = 5; // nang
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
         if (entry.vnSym == vnl_j || entry.vnSym == vnl_J) // last letter is an 'J'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-        ev.tone = 1; // nang
+        ev.tone = 5; // nang
         ev.vnSym = vnl_nonVnChar;
         return processTone(ev);
 
     default:
-        ev.tone = 1; // nang
+        ev.tone = 5; // nang
         ev.vnSym = vnl_nonVnChar;
         return processTone(ev);
     }
