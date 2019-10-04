@@ -71,7 +71,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processWEnvi,   //vneWEnvi
     &UkEngine::processXEnvi,   //vneXEnvi
-    &UkEngine::processKEnvi,   //vneXEnvi
+    &UkEngine::processKEnvi,   //vneKEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -1052,6 +1052,11 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
 
     switch (m_current) {
     case 0: // 1 letter typed
+        if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
+            ev.tone = 3; // hoi
+            ev.vnSym = vnl_nonVnChar;
+            return processTone(ev);
+        }
         return processAppend(ev); // We do not expect a Vietnamese tilde tone to go with the first letter ever.
         
     case 1: // 2 letters typed
@@ -1090,6 +1095,7 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
         if (!IsVnVowel[entry.vnSym] || entry.tone) { // a non-vn-vowel or a vn-vowel with a tone
             ev.tone = 3; // hoi
             ev.vnSym = vnl_nonVnChar;
+            outlog() << "case 0a" << std::endl;
             return processTone(ev);
         }
         switch (entry.vnSym) { // a vn-vowel without a tone
@@ -1097,10 +1103,12 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
         case vnl_O: // (O,k) -> Ok
         case vnl_u: // (u,k) -> uk
         case vnl_U: // (U,k) -> Uk
+            outlog() << "case 0b" << std::endl;
             return processAppend(ev);
         default:
             ev.tone = 3; // hoi
             ev.vnSym = vnl_nonVnChar;
+            outlog() << "case 0c" << std::endl;
             return processTone(ev);
         }
 
