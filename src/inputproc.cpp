@@ -206,7 +206,7 @@ DllExport UkKeyMapping EnviMethodMapping[] = {
     {'Q', vneTone1}, // sac
     {'Z', vneTone2}, // huyen
     {'K', vneTone3}, // hoi
-    {'X', vneTone4}, // nga
+    {'X', vneXEnvi}, // nga
     {'J', vneTone5}, // nang
     {'A', vneAEnvi},
     // {'W', vneHookAll},

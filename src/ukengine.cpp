@@ -70,6 +70,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processPEnvi,   //vnePEnvi
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processWEnvi,   //vneWEnvi
+    &UkEngine::processXEnvi,   //vneXEnvi
     &UkEngine::processAppend,  //vneNormal
 };
 
@@ -1035,6 +1036,34 @@ int UkEngine::processWEnvi(UkKeyEvent & ev)
         return processAppend(ev);
     }
 }
+
+//------------------------------------------------------------------
+int UkEngine::processXEnvi(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    int backs, tmpSize;
+    unsigned char tmpBuf[4];
+    UkOutputType tmpType;
+    
+    WordInfo & entry = m_buffer[m_current];
+
+    switch (m_current) {
+    case 0: // 1 letter typed
+        return processAppend(ev); // We do not expect a Vietnamese tilde tone to go with the first letter ever.
+        
+    case 1: // 2 letters typed
+        if (!IsVnVowel[m_buffer[0].vnSym]) // first letter is not a vowel
+            return processTone(ev);
+        if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) { // last letter is an 'X'
+            processBackspace(backs, tmpBuf, tmpSize, tmpType);
+            return processTone(ev);
+        }
+    default:
+        return processTone(ev);
+    }
+}  
 
 //----------------------------------------------------------
 int UkEngine::appendVowel(UkKeyEvent & ev)
