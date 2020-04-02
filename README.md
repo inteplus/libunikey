@@ -18,7 +18,7 @@ Single suffix key to form a Vietnamese letter with very low probability of hitti
   * aw (0.000906) for ă
   * ee (0.004278) for ê
   * oo (0.002352) for ô
-  * op (0.002419) for ơ
+  * ol (0.003174) for ơ
   * uu (0.000015) for ư
   * dd (0.000925) for đ
 

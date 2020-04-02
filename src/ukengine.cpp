@@ -67,7 +67,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processAEnvi,   //vneAEnvi
     &UkEngine::processEEnvi,   //vneEEnvi
     &UkEngine::processOEnvi,   //vneOEnvi
-    &UkEngine::processPEnvi,   //vnePEnvi
+    &UkEngine::processLEnvi,   //vneLEnvi
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processWEnvi,   //vneWEnvi
     &UkEngine::processXEnvi,   //vneXEnvi
@@ -983,7 +983,7 @@ int UkEngine::processOEnvi(UkKeyEvent & ev)
 }
 
 //----------------------------------------------------------
-int UkEngine::processPEnvi(UkKeyEvent & ev)
+int UkEngine::processLEnvi(UkKeyEvent & ev)
 {
     if (m_current < 0 || !m_pCtrl->vietKey)
         return processAppend(ev);
@@ -991,9 +991,9 @@ int UkEngine::processPEnvi(UkKeyEvent & ev)
     switch (m_buffer[m_current].vnSym) {
     case vnl_o: // normal 'O' cases
     case vnl_O:
-    case vnl_or:
+    case vnl_or: // o^ case
     case vnl_Or:
-    case vnl_oh:
+    case vnl_oh: // o* case
     case vnl_Oh:
         ev.evType = vneHook_o;
         return processHook(ev);

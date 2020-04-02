@@ -38,7 +38,7 @@ enum UkKeyEvName {
   vneAEnvi,
   vneEEnvi,
   vneOEnvi,
-  vnePEnvi,
+  vneLEnvi,
   vneUEnvi,
   vneWEnvi,
   vneXEnvi,
