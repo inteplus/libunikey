@@ -1068,7 +1068,7 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
         case vnl_O: // (O,x) -> Ox
             return processAppend(ev);
         default:
-            ev.tone = 3; // hoi
+            ev.tone = 4; // nga
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
