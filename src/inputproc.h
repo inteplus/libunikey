@@ -42,7 +42,7 @@ enum UkKeyEvName {
   vneUEnvi,
   vneWEnvi,
   vneXEnvi,
-  vneKEnvi,
+  vneBEnvi,
   vneQEnvi,
   vneJEnvi,
   vneNormal, //does not belong to any of the above categories

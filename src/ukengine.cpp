@@ -71,7 +71,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processUEnvi,   //vneUEnvi
     &UkEngine::processWEnvi,   //vneWEnvi
     &UkEngine::processXEnvi,   //vneXEnvi
-    &UkEngine::processKEnvi,   //vneKEnvi
+    &UkEngine::processBEnvi,   //vneBEnvi
     &UkEngine::processQEnvi,   //vneQEnvi
     &UkEngine::processJEnvi,   //vneJEnvi
     &UkEngine::processAppend,  //vneNormal
@@ -1059,7 +1059,19 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
-        return processAppend(ev); // We do not expect a Vietnamese tilde tone to go with the first letter ever.
+        switch (entry.vnSym) { // a vn-vowel without a tone
+        case vnl_a: // (a,x) -> ax
+        case vnl_A: // (A,x) -> Ax
+        case vnl_e: // (e,x) -> ex
+        case vnl_E: // (E,x) -> Ex
+        case vnl_o: // (o,x) -> ox
+        case vnl_O: // (O,x) -> Ox
+            return processAppend(ev);
+        default:
+            ev.tone = 3; // hoi
+            ev.vnSym = vnl_nonVnChar;
+            return processTone(ev);
+        }
         
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) { // first letter is not a vowel or it is a vowel and there is a tone
@@ -1081,7 +1093,7 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
 }  
 
 //------------------------------------------------------------------
-int UkEngine::processKEnvi(UkKeyEvent & ev)
+int UkEngine::processBEnvi(UkKeyEvent & ev)
 {
     if (!m_pCtrl->vietKey || m_current < 0)
         return processAppend(ev);
@@ -1100,10 +1112,10 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
             return processTone(ev);
         }
         switch (entry.vnSym) { // a vn-vowel without a tone
-        case vnl_o: // (o,k) -> ok
-        case vnl_O: // (O,k) -> Ok
-        case vnl_u: // (u,k) -> uk
-        case vnl_U: // (U,k) -> Uk
+        case vnl_o: // (o,b) -> ob
+        case vnl_O: // (O,b) -> Ob
+        case vnl_u: // (u,b) -> ub
+        case vnl_U: // (U,b) -> Ub
             return processAppend(ev);
         default:
             ev.tone = 3; // hoi
@@ -1117,7 +1129,7 @@ int UkEngine::processKEnvi(UkKeyEvent & ev)
             ev.vnSym = vnl_nonVnChar;
             return processTone(ev);
         }
-        if (entry.vnSym == vnl_k || entry.vnSym == vnl_K) // last letter is an 'K'
+        if (entry.vnSym == vnl_b || entry.vnSym == vnl_B) // last letter is an 'B'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
         ev.tone = 3; // hoi
         ev.vnSym = vnl_nonVnChar;

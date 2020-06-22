@@ -205,7 +205,7 @@ DllExport UkKeyMapping MsViMethodMapping[] = {
 DllExport UkKeyMapping EnviMethodMapping[] = {
     {'Q', vneQEnvi}, // sac
     {'Z', vneTone2}, // huyen
-    {'K', vneKEnvi}, // hoi
+    {'B', vneBEnvi}, // hoi
     {'X', vneXEnvi}, // nga
     {'J', vneJEnvi}, // nang
     {'A', vneAEnvi},

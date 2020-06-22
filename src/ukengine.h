@@ -115,7 +115,7 @@ public:
     int processUEnvi(UkKeyEvent & ev);
     int processWEnvi(UkKeyEvent & ev);
     int processXEnvi(UkKeyEvent & ev);
-    int processKEnvi(UkKeyEvent & ev);
+    int processBEnvi(UkKeyEvent & ev);
     int processQEnvi(UkKeyEvent & ev);
     int processJEnvi(UkKeyEvent & ev);
 
