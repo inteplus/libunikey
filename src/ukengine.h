@@ -99,6 +99,12 @@ public:
     //following methods must be public just to enable the use of pointers to them
     //they should not be called from outside.
     int processTone(UkKeyEvent & ev);
+    int processToneAcute(UkKeyEvent & ev);
+    int processToneUnderdot(UkKeyEvent & ev);
+    int processToneGrave(UkKeyEvent & ev);
+    int processToneHook(UkKeyEvent & ev);
+    int processToneTilde(UkKeyEvent & ev);
+
     int processRoof(UkKeyEvent & ev);
     int processHook(UkKeyEvent & ev);
     int processAppend(UkKeyEvent & ev);
