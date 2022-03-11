@@ -1089,13 +1089,13 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
     int backs, tmpSize;
     unsigned char tmpBuf[4];
     UkOutputType tmpType;
-    
+
     WordInfo & entry = m_buffer[m_current];
 
     switch (m_current) {
     case 0: // 1 letter typed
         if (!IsVnVowel[entry.vnSym] || entry.tone) // a non-vn-vowel or a vn-vowel with a tone
-            return processToneAcute(ev);
+            return processToneTilde(ev);
         switch (entry.vnSym) { // a vn-vowel without a tone
         case vnl_a: // (a,x) -> ax
         case vnl_A: // (A,x) -> Ax
@@ -1105,20 +1105,20 @@ int UkEngine::processXEnvi(UkKeyEvent & ev)
         case vnl_O: // (O,x) -> Ox
             return processAppend(ev);
         default:
-            return processToneAcute(ev);
+            return processToneTilde(ev);
         }
-        
+
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) // first letter is not a vowel or it is a vowel and there is a tone
-            return processToneAcute(ev);
+            return processToneTilde(ev);
         if (entry.vnSym == vnl_x || entry.vnSym == vnl_x) // last letter is an 'X'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-        return processToneAcute(ev);
+        return processToneTilde(ev);
 
     default:
-        return processToneAcute(ev);
+        return processToneTilde(ev);
     }
-}  
+}
 
 //------------------------------------------------------------------
 int UkEngine::processBEnvi(UkKeyEvent & ev)
@@ -1129,13 +1129,13 @@ int UkEngine::processBEnvi(UkKeyEvent & ev)
     int backs, tmpSize;
     unsigned char tmpBuf[4];
     UkOutputType tmpType;
-    
+
     WordInfo & entry = m_buffer[m_current];
 
     switch (m_current) {
     case 0: // 1 letter typed
         if (!IsVnVowel[entry.vnSym] || entry.tone) // a non-vn-vowel or a vn-vowel with a tone
-            return processToneTilde(ev);
+            return processToneHook(ev);
         switch (entry.vnSym) { // a vn-vowel without a tone
         case vnl_o: // (o,b) -> ob
         case vnl_O: // (O,b) -> Ob
@@ -1143,20 +1143,20 @@ int UkEngine::processBEnvi(UkKeyEvent & ev)
         case vnl_U: // (U,b) -> Ub
             return processAppend(ev);
         default:
-            return processToneTilde(ev);
+            return processToneHook(ev);
         }
 
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) // first letter is not a vowel or it is a vowel but there is a tone
-            return processToneTilde(ev);
+            return processToneHook(ev);
         if (entry.vnSym == vnl_b || entry.vnSym == vnl_B) // last letter is an 'B'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-        return processToneTilde(ev);
+        return processToneHook(ev);
 
     default:
-        return processToneTilde(ev);
+        return processToneHook(ev);
     }
-}  
+}
 
 //------------------------------------------------------------------
 int UkEngine::processQEnvi(UkKeyEvent & ev)
@@ -1167,32 +1167,32 @@ int UkEngine::processQEnvi(UkKeyEvent & ev)
     int backs, tmpSize;
     unsigned char tmpBuf[4];
     UkOutputType tmpType;
-    
+
     WordInfo & entry = m_buffer[m_current];
 
     switch (m_current) {
     case 0: // 1 letter typed
         if (!IsVnVowel[entry.vnSym] || entry.tone) // a non-vn-vowel or a vn-vowel with a tone
-            return processToneHook(ev);
+            return processToneAcute(ev);
         switch (entry.vnSym) { // a vn-vowel without a tone
         case vnl_e: // (e,q) -> eq
         case vnl_E: // (E,q) -> Eq
             return processAppend(ev);
         default:
-            return processToneHook(ev);
+            return processToneAcute(ev);
         }
 
     case 1: // 2 letters typed
         if (!IsVnVowel[m_buffer[0].vnSym] || m_buffer[0].tone) // first letter is not a vowel or it is a vowel but there is a tone
-            return processToneHook(ev);
+            return processToneAcute(ev);
         if (entry.vnSym == vnl_q || entry.vnSym == vnl_Q) // last letter is an 'Q'
             processBackspace(backs, tmpBuf, tmpSize, tmpType);
-        return processToneHook(ev);
+        return processToneAcute(ev);
 
     default:
-        return processToneHook(ev);
+        return processToneAcute(ev);
     }
-}  
+}
 
 //------------------------------------------------------------------
 int UkEngine::processJEnvi(UkKeyEvent & ev)
@@ -1203,7 +1203,7 @@ int UkEngine::processJEnvi(UkKeyEvent & ev)
     int backs, tmpSize;
     unsigned char tmpBuf[4];
     UkOutputType tmpType;
-    
+
     WordInfo & entry = m_buffer[m_current];
 
     switch (m_current) {
@@ -1228,7 +1228,7 @@ int UkEngine::processJEnvi(UkKeyEvent & ev)
     default:
         return processToneUnderdot(ev);
     }
-}  
+}
 
 //----------------------------------------------------------
 int UkEngine::appendVowel(UkKeyEvent & ev)
@@ -1259,7 +1259,7 @@ int UkEngine::appendVowel(UkKeyEvent & ev)
         markChange(m_current);
         return 1;
     }
-  
+
     WordInfo & prev = m_buffer[m_current-1];
     VowelSeq vs, newVs;
     ConSeq cs;
@@ -1287,7 +1287,7 @@ int UkEngine::appendVowel(UkKeyEvent & ev)
         vs = prev.vseq;
         prevTonePos = (m_current - 1) - (VSeqList[vs].len - 1) + getTonePosition(vs, true);
         tone = m_buffer[prevTonePos].tone;
-    
+
         if (lowerSym != canSym && tone != 0) //new sym has a tone, but there's is already a preceeding tone
             newVs = vs_nil;
         else {
@@ -1310,7 +1310,7 @@ int UkEngine::appendVowel(UkKeyEvent & ev)
             entry.c1Offset = entry.c2Offset = entry.vOffset = -1;
             break;
         }
-    
+
         entry.form = prev.form;
         if (prev.form == vnw_cv)
             entry.c1Offset = prev.c1Offset + 1;
@@ -1320,7 +1320,7 @@ int UkEngine::appendVowel(UkKeyEvent & ev)
         entry.vOffset = 0;
         entry.vseq = newVs;
         entry.tone = 0;
-        
+
         newTone = (lowerSym - canSym)/2;
         if (tone == 0) {
             if (newTone != 0) {
@@ -1374,12 +1374,12 @@ int UkEngine::appendVowel(UkKeyEvent & ev)
             prev.tone = 0;
             return 1;
         }
-    
+
         break;
   }
 
     if (!autoCompleted &&
-        (m_pCtrl->charsetId != CONV_CHARSET_UNI_CSTRING) && 
+        (m_pCtrl->charsetId != CONV_CHARSET_UNI_CSTRING) &&
         isalpha(entry.keyCode)) {
         return 0;
     }

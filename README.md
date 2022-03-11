@@ -6,11 +6,11 @@ This variant contains Envi, an input method modified from Telex to support typin
 
 Single key stroke for a tone with lowest probability of hitting an English bigram
 
-  * X (0.0019) for sắc
-  * Q (0.0025) for hỏi
-  * Z (0.0095) for huyền
+  * X (0.0019) for ngã
+  * Q (0.0025) for sắc
   * J (0.0035) for nặng
-  * B (0.0110) for ngã
+  * Z (0.0095) for huyền
+  * B (0.0110) for hỏi
 
 Single suffix key to form a Vietnamese letter with very low probability of hitting an English bigram
 
